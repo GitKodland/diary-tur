@@ -1,0 +1,11 @@
+# Flask web framework
+Flask>=2.3.0
+
+# SQLAlchemy integration with Flask
+Flask_SQLAlchemy>=3.0.0
+
+# Optional: environment variable management
+python-dotenv>=1.0.0
+
+# Optional: development server and debugging tools
+Werkzeug>=2.3.0
