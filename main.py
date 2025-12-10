@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 # Tablo oluşturma
 
 class Card(db.Model):
-    # Sütun oluşturma
+    # Giriş alanları oluşturma
     # id
     id = db.Column(db.Integer, primary_key=True)
     # Başlık
@@ -28,11 +28,7 @@ class Card(db.Model):
         return f'<Card {self.id}>'
     
 
-#Ödev #2. Kullanıcı tablosunu oluşturun
-
-
-
-
+#Görev #1. Kullanıcı tablosunu oluşturun
 
 
 
@@ -46,7 +42,7 @@ def login():
             form_login = request.form['email']
             form_password = request.form['password']
             
-            #Ödev #4. yetkilendirmeyi uygulamak
+            #Görev #4. Yetkilendirmeyi uygulamak
             
 
 
@@ -62,7 +58,7 @@ def reg():
         login= request.form['email']
         password = request.form['password']
         
-        #Ödev #3 Kullanıcı verilerinin veri tabanına kaydedilmesini sağlayın
+        #Görev #3 Kullanıcı verilerinin veri tabanına kaydedilmesini sağlayın
         
 
         
@@ -99,7 +95,7 @@ def form_create():
         subtitle =  request.form['subtitle']
         text =  request.form['text']
 
-        # Veri tabanına gönderilecek bir nesne oluşturma
+        # Görev #4. Kullanıcı adına kart oluşturma işlemini gerçekleştirin.
         card = Card(title=title, subtitle=subtitle, text=text)
 
         db.session.add(card)
@@ -107,10 +103,6 @@ def form_create():
         return redirect('/index')
     else:
         return render_template('create_card.html')
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
