@@ -1,69 +1,64 @@
-# İçe aktar
-from flask import Flask, render_template,request, redirect
-# Veri tabanı kitaplığını bağlama
+# Kütüphaneleri yükleme/Flask'a bağlanma
+from flask import Flask, render_template, request, redirect, session
+# Veti tabanı kütüphanesine bağlanma
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-# SQLite'ı bağlama
+# Oturum için gizli anahtarın ayarlanması
+app.secret_key = 'my_top_secret_123'
+# SQLite bağlantısı kurma
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///diary.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# Veri tabanı oluşturma
+# Veritabanı oluşturma
 db = SQLAlchemy(app)
 # Tablo oluşturma
 
 class Card(db.Model):
-    # Sütun oluşturma
+    # Tablo giriş alanları oluşturma
     # id
     id = db.Column(db.Integer, primary_key=True)
     # Başlık
     title = db.Column(db.String(100), nullable=False)
-    # Tanım
+    # Alt başlık
     subtitle = db.Column(db.String(300), nullable=False)
     # Metin
     text = db.Column(db.Text, nullable=False)
+    # Kart sahibinin e-posta adresi
+    user_email = db.Column(db.String(100), nullable=False)
 
-    # Nesnenin ve kimliğin çıktısı
+    # Nesneyi ve kimliğini çıktı olarak verme
     def __repr__(self):
         return f'<Card {self.id}>'
     
 
-#Ödev #2. Kullanıcı tablosunu oluşturun
+# Ödev #1. Kullanıcı tablosunu oluşturun.
 
 
-
-
-
-
-
-
-
-# İçerik sayfasını çalıştırma
+# İçerik sayfasını başlatma
 @app.route('/', methods=['GET','POST'])
 def login():
-        error = ''
-        if request.method == 'POST':
-            form_login = request.form['email']
-            form_password = request.form['password']
+    error = ''
+    if request.method == 'POST':
+        form_login = request.form['email']
+        form_password = request.form['password']
             
-            #Ödev #4. yetkilendirmeyi uygulamak
-            
+        # Ödev #4. Kullanıcı doğrulamasını uygulayın
 
-
-            
-        else:
-            return render_template('login.html')
+     
+    else:
+        return render_template('login.html')
 
 
 
 @app.route('/reg', methods=['GET','POST'])
 def reg():
     if request.method == 'POST':
-        login= request.form['email']
+        email = request.form['email']
         password = request.form['password']
         
-        #Ödev #3 Kullanıcı verilerinin veri tabanına kaydedilmesini sağlayın
-        
+        # Ödev #3. Kullanıcı doğrulamasını uygulayın
+
 
         
         return redirect('/')
@@ -72,26 +67,26 @@ def reg():
         return render_template('registration.html')
 
 
-# İçerik sayfasını çalıştırma
+# İçerik sayfasını başlatma
 @app.route('/index')
 def index():
-    # Veri tabanı girişlerini görüntüleme
+    # Görev #4. Kullanıcının yalnızca kendi kartlarını görmesini sağlayın.
     cards = Card.query.order_by(Card.id).all()
     return render_template('index.html', cards=cards)
 
-# Kayıt sayfasını çalıştırma
+# Kart sayfasını başlatma
 @app.route('/card/<int:id>')
 def card(id):
     card = Card.query.get(id)
 
     return render_template('card.html', card=card)
 
-# Giriş oluşturma sayfasını çalıştırma
+# Kart oluşturma sayfasını başlatma
 @app.route('/create')
 def create():
     return render_template('create_card.html')
 
-# Giriş formu
+# Kart formu
 @app.route('/form_create', methods=['GET','POST'])
 def form_create():
     if request.method == 'POST':
@@ -99,7 +94,7 @@ def form_create():
         subtitle =  request.form['subtitle']
         text =  request.form['text']
 
-        # Veri tabanına gönderilecek bir nesne oluşturma
+        # Görev #4. Kullanıcı adına kart oluşturma işlemini gerçekleştirin.
         card = Card(title=title, subtitle=subtitle, text=text)
 
         db.session.add(card)
@@ -107,10 +102,6 @@ def form_create():
         return redirect('/index')
     else:
         return render_template('create_card.html')
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
