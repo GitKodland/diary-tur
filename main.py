@@ -32,7 +32,7 @@ class Card(db.Model):
         return f'<Card {self.id}>'
     
 
-# Ödev #1. Kullanıcı tablosunu oluşturun.
+# Görev #1. Kullanıcı tablosunu oluşturun.
 
 
 # İçerik sayfasını başlatma
@@ -43,7 +43,7 @@ def login():
         form_login = request.form['email']
         form_password = request.form['password']
             
-        # Ödev #4. Kullanıcı doğrulamasını uygulayın
+        # Görev #4. Kullanıcı doğrulamasını uygulayın
 
      
     else:
@@ -57,7 +57,7 @@ def reg():
         email = request.form['email']
         password = request.form['password']
         
-        # Ödev #3. Kullanıcı doğrulamasını uygulayın
+        # Görev #3. Kullanıcı doğrulamasını uygulayın
 
 
         
